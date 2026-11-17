@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Legal notice · Orbit</title>
+  <meta name="robots" content="noindex">
+  <meta name="theme-color" content="#0B1024">
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+    <defs>
+      <symbol id="orbit-mark" viewBox="-50 -50 100 100">
+        <g transform="rotate(-22)">
+          <ellipse rx="46" ry="18" fill="none" stroke="#7FE3D0" stroke-opacity=".4" stroke-width="2.2"/>
+          <ellipse rx="36" ry="14" fill="none" stroke="#9EEEE0" stroke-width="2.3"/>
+          <ellipse rx="26" ry="10" fill="none" stroke="#7FE3D0" stroke-width="2.6"/>
+          <circle cx="29.6" cy="-13.8" r="4.2" fill="#E08AA2"/>
+          <circle cx="34.8" cy="-3.6" r="3.2" fill="#F5F6FA"/>
+          <circle cx="-43.2" cy="6.2" r="3.6" fill="#8AA6EC"/>
+        </g>
+        <circle r="15" fill="#E3A35F"/>
+        <circle cx="-4" cy="-4" r="5" fill="#F6D7A8"/>
+      </symbol>
+    </defs>
+  </svg>
+
+  <header class="nav">
+    <div class="wrap nav-in">
+      <a class="brand" href="index.html" aria-label="Orbit, back to the start page">
+        <span class="tile"><svg viewBox="0 0 100 100" aria-hidden="true"><use href="#orbit-mark" width="100" height="100"/></svg></span>
+        <span class="brand-name">orbit</span>
+      </a>
+      <a class="btn btn-small btn-ghost" href="index.html">Back to the start page</a>
+    </div>
+  </header>
+
+  <main class="legal">
+    <div class="wrap">
+      <h1>Legal notice</h1>
+      <p class="meta">Impressum according to § 5 DDG</p>
+
+      <p class="todo-note"><span class="todo">Fill in the highlighted fields before you publish the site.</span></p>
+
+      <h2>Provider</h2>
+      <p><span class="todo">[Full name or company name]</span><br>
+      <span class="todo">[Street and number]</span><br>
+      <span class="todo">[Postcode and city]</span><br>
+      <span class="todo">[Country]</span></p>
+
+      <h2>Contact</h2>
+      <p>Email: <a data-contact href="mailto:hello@example.com">hello@example.com</a><br>
+      Phone: <span class="todo">[optional, if you want to list one]</span></p>
+
+      <h2>Registration and tax</h2>
+      <p>Commercial register and number: <span class="todo">[if registered, otherwise delete this line]</span><br>
+      VAT ID according to § 27a UStG: <span class="todo">[if you have one, otherwise delete this line]</span></p>
+
+      <h2>Responsible for content (§ 18 (2) MStV)</h2>
+      <p><span class="todo">[Full name and address, same as above]</span></p>
+
+      <h2>Screens and sample data</h2>
+      <p>The app screens on this site show a test build of Orbit with made-up sample data. The people and notes shown are fictional.</p>
+
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="wrap footer-in">
+      <a class="brand" href="index.html" aria-label="Orbit, back to the start page">
+        <span class="tile"><svg viewBox="0 0 100 100" aria-hidden="true"><use href="#orbit-mark" width="100" height="100"/></svg></span>
+        <span class="brand-name">orbit</span>
+      </a>
+      <p class="footer-claim">Private. Yours.</p>
+      <nav class="footer-links" aria-label="Legal">
+        <a href="impressum.html">Legal notice</a>
+        <a href="privacy.html">Privacy</a>
+        <a data-contact href="mailto:hello@example.com">Contact</a>
+      </nav>
+      <p class="footer-fine">© 2026 Orbit.</p>
+    </div>
+  </footer>
+
+  <script src="config.js"></script>
+  <script>
+    (function () {
+      var cfg = window.ORBIT_SITE || {};
+      if (!cfg.contactEmail) return;
+      document.querySelectorAll('[data-contact]').forEach(function (a) {
+        a.href = 'mailto:' + cfg.contactEmail;
+        if (a.textContent.indexOf('@') > -1) a.textContent = cfg.contactEmail;
+      });
+    })();
+  </script>
+</body>
+</html>

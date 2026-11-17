@@ -1,0 +1,413 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Orbit · The address book that remembers</title>
+  <meta name="description" content="Speak for ten seconds after you meet someone. Orbit remembers what they told you, then comes to you to bring you back together. Private. Yours. Join the test group.">
+  <meta name="theme-color" content="#0B1024">
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Orbit · The address book that remembers">
+  <meta property="og:description" content="Ten seconds of talking. Orbit remembers the people you meet and brings you back together. Join the test group.">
+  <meta property="og:image" content="assets/og.png">
+  <meta name="twitter:card" content="summary_large_image">
+
+  <link rel="preload" href="assets/fonts/plus-jakarta-sans-var.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="assets/fonts/inter-var.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="styles.css">
+  <script>document.documentElement.classList.add('js')</script>
+</head>
+<body>
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+    <defs>
+      <symbol id="orbit-mark" viewBox="-50 -50 100 100">
+        <g transform="rotate(-22)">
+          <ellipse rx="46" ry="18" fill="none" stroke="#7FE3D0" stroke-opacity=".4" stroke-width="2.2"/>
+          <ellipse rx="36" ry="14" fill="none" stroke="#9EEEE0" stroke-width="2.3"/>
+          <ellipse rx="26" ry="10" fill="none" stroke="#7FE3D0" stroke-width="2.6"/>
+          <circle cx="29.6" cy="-13.8" r="4.2" fill="#E08AA2"/>
+          <circle cx="34.8" cy="-3.6" r="3.2" fill="#F5F6FA"/>
+          <circle cx="-43.2" cy="6.2" r="3.6" fill="#8AA6EC"/>
+        </g>
+        <circle r="15" fill="#E3A35F"/>
+        <circle cx="-4" cy="-4" r="5" fill="#F6D7A8"/>
+      </symbol>
+    </defs>
+  </svg>
+
+  <a class="skip" href="#main">Skip to content</a>
+
+  <header class="nav" id="top">
+    <div class="wrap nav-in">
+      <a class="brand" href="#top" aria-label="Orbit, back to top">
+        <span class="tile"><svg viewBox="0 0 100 100" aria-hidden="true"><use href="#orbit-mark" width="100" height="100"/></svg></span>
+        <span class="brand-name">orbit</span>
+      </a>
+      <nav class="nav-links" aria-label="Sections">
+        <a href="#story">Story</a>
+        <a href="#how">How it works</a>
+        <a href="#screens">Screens</a>
+        <a href="#private">Privacy</a>
+        <a href="#faq">FAQ</a>
+      </nav>
+      <a class="btn btn-small btn-sun" href="#join" data-intent="test_group">Join the test group</a>
+    </div>
+  </header>
+
+  <main id="main">
+    <!-- HERO -->
+    <section class="hero">
+      <div class="stars" aria-hidden="true"></div>
+      <div class="wrap hero-grid">
+        <div class="hero-copy">
+          <p class="pill" data-reveal><span class="dot"></span>Early access · small test group</p>
+          <h1 data-reveal style="--d:.05s">The address book that <em>remembers.</em></h1>
+          <p class="lead" data-reveal style="--d:.12s">Speak for ten seconds after you meet someone. Orbit remembers what they told you, then comes to you to bring you back together.</p>
+          <div class="cta-row" data-reveal style="--d:.2s">
+            <a class="btn btn-sun" href="#join" data-intent="test_group">Join the test group <span class="btn-tag">2 €</span></a>
+            <a class="btn btn-ghost" href="#join" data-intent="waitlist">Join the waitlist, free</a>
+          </div>
+          <ul class="facts" data-reveal style="--d:.28s">
+            <li><strong>10 seconds</strong> to capture a memory</li>
+            <li><strong>Nothing saved</strong> until you check it</li>
+            <li><strong>Private.</strong> Yours.</li>
+          </ul>
+        </div>
+
+        <div class="hero-visual" aria-hidden="false">
+          <svg class="rings" viewBox="-300 -300 600 600" aria-hidden="true">
+            <g transform="rotate(-22)">
+              <ellipse rx="270" ry="108" fill="none" stroke="#7FE3D0" stroke-opacity=".22" stroke-width="1.4"/>
+              <ellipse rx="215" ry="86" fill="none" stroke="#9EEEE0" stroke-opacity=".3" stroke-width="1.4"/>
+              <ellipse rx="160" ry="64" fill="none" stroke="#7FE3D0" stroke-opacity=".5" stroke-width="1.6"/>
+              <circle r="9" fill="#E08AA2"><animateMotion dur="38s" repeatCount="indefinite" path="M270,0 A270,108 0 1,1 -270,0 A270,108 0 1,1 270,0"/></circle>
+              <circle r="6.5" fill="#F5F6FA"><animateMotion dur="29s" repeatCount="indefinite" path="M215,0 A215,86 0 1,0 -215,0 A215,86 0 1,0 215,0"/></circle>
+              <circle r="8" fill="#8AA6EC"><animateMotion dur="21s" repeatCount="indefinite" path="M160,0 A160,64 0 1,1 -160,0 A160,64 0 1,1 160,0"/></circle>
+            </g>
+          </svg>
+          <div class="glow glow-sun"></div>
+          <div class="phone phone-back" style="--w:236px"><img src="assets/screens/capture.webp" width="780" height="1688" alt="Orbit while you speak: a live transcript of what you are saying" decoding="async"></div>
+          <div class="phone phone-front" style="--w:272px"><img src="assets/screens/network.webp" width="780" height="1688" alt="Orbit's network screen: circles for master, run club, founders and family with the people in them" fetchpriority="high"></div>
+          <p class="float float-a"><span class="float-dot" style="--c:#8AA6EC"></span>Daniel works on energy systems</p>
+          <p class="float float-b"><span class="float-dot" style="--c:#E08AA2"></span>Knows Jonas from the master</p>
+          <p class="float float-c"><span class="float-dot" style="--c:#E3A35F"></span>Send him the grant checklist</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 01 THE FORGETTING -->
+    <section class="section light" id="story">
+      <div class="wrap split">
+        <div class="split-head">
+          <p class="kicker" data-reveal><span>01</span> The forgetting</p>
+          <h2 class="big" data-reveal>Meet Lena. New master's, new city, <em>new faces every single day.</em></h2>
+          <p class="body-l" data-reveal>She wants to really know these people, not just be connected to them. But by evening, most of it is gone.</p>
+        </div>
+
+        <div class="split-body">
+          <ul class="fading" aria-label="Things Lena forgets" data-reveal>
+            <li style="--o:1">The move to Munich</li>
+            <li style="--o:.82">The daughter's name</li>
+            <li style="--o:.62">Who knows whom</li>
+            <li style="--o:.42">What she promised to send</li>
+            <li style="--o:.24">Where they even met</li>
+          </ul>
+
+          <div class="fails">
+            <article class="fail" data-reveal>
+              <h3>Typing notes</h3>
+              <p>Too much work. It never happens after a long evening.</p>
+            </article>
+            <article class="fail" data-reveal style="--d:.08s">
+              <h3>LinkedIn</h3>
+              <p>Too loud. She wants a friend, not a feed.</p>
+            </article>
+            <article class="fail" data-reveal style="--d:.16s">
+              <h3>A CRM for friends</h3>
+              <p>Sounds like a dossier. That is exactly who she refuses to be.</p>
+            </article>
+          </div>
+        </div>
+      </div>
+      <div class="wrap">
+        <p class="close" data-reveal>Her address book had turned into a graveyard: <strong>names without stories.</strong></p>
+      </div>
+    </section>
+
+    <!-- 02 THE TEN SECONDS -->
+    <section class="section light tinted" id="how">
+      <div class="wrap">
+        <div class="narrow">
+          <p class="kicker" data-reveal><span>02</span> The ten seconds</p>
+          <h2 class="big" data-reveal>Then Lena spoke for <em>ten seconds.</em></h2>
+          <p class="body-l" data-reveal>You are the hero. Orbit is only the guide, a social memory that listens, files and nudges. Three steps, no system to maintain.</p>
+        </div>
+
+        <ol class="steps">
+          <li class="step" data-reveal>
+            <span class="step-n">1</span>
+            <svg class="step-ico" viewBox="0 0 48 48" aria-hidden="true"><rect x="17" y="6" width="14" height="24" rx="7" fill="none" stroke="currentColor" stroke-width="3"/><path d="M10 24a14 14 0 0 0 28 0M24 38v5" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"/></svg>
+            <h3>Speak</h3>
+            <p>After you meet someone, tap the mic and say what stuck. Ten seconds is plenty. No typing, no forms.</p>
+          </li>
+          <li class="step" data-reveal style="--d:.08s">
+            <span class="step-n">2</span>
+            <svg class="step-ico" viewBox="0 0 48 48" aria-hidden="true"><rect x="8" y="8" width="32" height="32" rx="9" fill="none" stroke="currentColor" stroke-width="3"/><path d="m16 25 6 6 11-13" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <h3>Check</h3>
+            <p>Orbit turns what you said into small cards. Look them over. Nothing is saved until you say so.</p>
+          </li>
+          <li class="step" data-reveal style="--d:.16s">
+            <span class="step-n">3</span>
+            <svg class="step-ico" viewBox="0 0 48 48" aria-hidden="true"><ellipse cx="24" cy="24" rx="19" ry="8" transform="rotate(-22 24 24)" fill="none" stroke="currentColor" stroke-width="3"/><circle cx="24" cy="24" r="5.5" fill="currentColor"/><circle cx="38" cy="15" r="3" fill="currentColor"/></svg>
+            <h3>Reconnect</h3>
+            <p>Orbit comes to you at the right moment and brings you back together. A nudge, not a to-do list.</p>
+          </li>
+        </ol>
+
+        <figure class="quote" data-reveal>
+          <blockquote>I met Daniel at the climate meetup. He works on energy systems and loves trail running. He knows Jonas from the master.</blockquote>
+          <figcaption>Ten seconds, out loud. Orbit does the rest.</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <!-- 03 SCREENS -->
+    <section class="section night" id="screens" aria-labelledby="screens-title">
+      <div class="stars" aria-hidden="true"></div>
+      <div class="wrap">
+        <div class="narrow center">
+          <p class="kicker on-night" data-reveal><span>03</span> The app</p>
+          <h2 class="big on-night" id="screens-title" data-reveal>Watch a memory <em>happen.</em></h2>
+          <p class="body-l on-night" data-reveal>Real screens from the Orbit test build, shown with sample data.</p>
+        </div>
+
+        <div class="slider" id="slider" role="region" aria-roledescription="carousel" aria-label="Orbit app screens" data-reveal>
+          <div class="slider-text">
+            <p class="slide-count" aria-live="off"><span id="slide-now">1</span> / <span id="slide-total">6</span></p>
+            <div class="captions" id="captions">
+              <div class="caption" data-slide="0">
+                <h3>Speak for ten seconds</h3>
+                <p>Tap the mic after you meet someone and say what stuck. You see your words appear while you talk. No typing, no forms.</p>
+              </div>
+              <div class="caption" data-slide="1">
+                <h3>Check what Orbit understood</h3>
+                <p>Your words become small cards, sorted onto three paths. Turn a line off to leave it out. Nothing is saved until you say so.</p>
+              </div>
+              <div class="caption" data-slide="2">
+                <h3>Orbit comes to you</h3>
+                <p>A move next week, a promise you made, a friend to follow up with. Orbit nudges at the right time and writes the message for you to copy.</p>
+              </div>
+              <div class="caption" data-slide="3">
+                <h3>Ask your memory</h3>
+                <p>"Who knows tax law?" Orbit looks through what you have noted and answers with a name, and why.</p>
+              </div>
+              <div class="caption" data-slide="4">
+                <h3>Know them, then connect</h3>
+                <p>Every profile shows what you know, where your interests overlap and a follow-up that sounds like you.</p>
+              </div>
+              <div class="caption" data-slide="5">
+                <h3>Your people, as a map</h3>
+                <p>Every circle in your life, with the people in it. Master, run club, founder nights. One look, no spreadsheet.</p>
+              </div>
+            </div>
+            <div class="slider-controls">
+              <button class="round" id="prev" type="button" aria-label="Previous screen"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m14.5 5.5-6.5 6.5 6.5 6.5" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+              <div class="pips" id="dots" role="group" aria-label="Choose a screen"></div>
+              <button class="round" id="next" type="button" aria-label="Next screen"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9.5 5.5 6.5 6.5-6.5 6.5" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+            </div>
+          </div>
+
+          <div class="stage" id="stage">
+            <ul class="track" id="track">
+              <li class="slide"><div class="phone" style="--w:var(--slide-w)"><img src="assets/screens/capture.webp" width="780" height="1688" alt="Recording screen with a live waveform and the words 'I met Daniel at the climate meetup'" loading="lazy" decoding="async"></div></li>
+              <li class="slide"><div class="phone" style="--w:var(--slide-w)"><img src="assets/screens/review.webp" width="780" height="1688" alt="Check these: what you said, and the three paths it goes to after you save" loading="lazy" decoding="async"></div></li>
+              <li class="slide"><div class="phone" style="--w:var(--slide-w)"><img src="assets/screens/moves.webp" width="780" height="1688" alt="To follow up: remember this about Jonas, send Maya the ultra training plan" loading="lazy" decoding="async"></div></li>
+              <li class="slide"><div class="phone" style="--w:var(--slide-w)"><img src="assets/screens/ask.webp" width="780" height="1688" alt="Ask screen: 'Who knows tax law?' answered with Priya Nair" loading="lazy" decoding="async"></div></li>
+              <li class="slide"><div class="phone" style="--w:var(--slide-w)"><img src="assets/screens/person.webp" width="780" height="1688" alt="Jonas Weber's profile with a ready-made follow-up about AI startups" loading="lazy" decoding="async"></div></li>
+              <li class="slide"><div class="phone" style="--w:var(--slide-w)"><img src="assets/screens/network.webp" width="780" height="1688" alt="Network map with four circles and thirteen people" loading="lazy" decoding="async"></div></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 04 ORBIT COMES TO YOU -->
+    <section class="section light" id="paths">
+      <div class="wrap">
+        <div class="narrow">
+          <p class="kicker" data-reveal><span>04</span> Orbit comes to you</p>
+          <h2 class="big" data-reveal>Not task guilt. <em>A nudge at the right time.</em></h2>
+          <p class="body-l" data-reveal>Every line you say lands on one of three paths. Each one asks for a different kind of attention.</p>
+        </div>
+
+        <div class="paths">
+          <article class="path" style="--c:#C0476A" data-reveal>
+            <span class="path-dot"></span>
+            <h3>Their moments</h3>
+            <p class="path-def">A race, an exam, a pitch, a promise. Follow up when it comes due.</p>
+            <p class="path-ex">"Jonas moves to Munich this week. Ask about the new flat."</p>
+          </article>
+          <article class="path" style="--c:#B26E0B;--d:.08s" data-reveal>
+            <span class="path-dot"></span>
+            <h3>Your focus</h3>
+            <p class="path-def">What lines up with what you are working on right now.</p>
+            <p class="path-ex">"You are into AI startups. Jonas is hiring a designer for his."</p>
+          </article>
+          <article class="path" style="--c:#0E8A78;--d:.16s" data-reveal>
+            <span class="path-dot"></span>
+            <h3>Topic overlaps</h3>
+            <p class="path-def">A shared subject, between you and them or between two people.</p>
+            <p class="path-ex">"Maya and Daniel both love trail running. Worth an intro?"</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- 05 PRIVATE -->
+    <section class="section light private" id="private">
+      <div class="wrap">
+        <div class="private-card" data-reveal>
+          <div class="private-head">
+            <p class="kicker on-night"><span>05</span> Private. Yours.</p>
+            <h2 class="big on-night">Your memory belongs <em>to you.</em></h2>
+            <p class="body-l on-night">Orbit is a notebook about people you care about. It should feel like one.</p>
+          </div>
+          <ul class="private-list">
+            <li>
+              <svg viewBox="0 0 32 32" aria-hidden="true"><rect x="6" y="14" width="20" height="14" rx="4" fill="none" stroke="currentColor" stroke-width="2.4"/><path d="M11 14v-3a5 5 0 0 1 10 0v3" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg>
+              <div><h3>Only you see your notes</h3><p>They live in your own account. There is no public profile and nothing for anyone to browse.</p></div>
+            </li>
+            <li>
+              <svg viewBox="0 0 32 32" aria-hidden="true"><path d="M5 5h8v8H5zM19 5h8v8h-8zM5 19h8v8H5zM19 19h3v3h-3zM24 24h3v3h-3zM19 25h3" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round"/></svg>
+              <div><h3>Sharing is a choice, in person</h3><p>What a friend shares with you arrives by QR code, face to face, and stays separate from your private notes.</p></div>
+            </li>
+            <li>
+              <svg viewBox="0 0 32 32" aria-hidden="true"><rect x="5" y="5" width="22" height="22" rx="7" fill="none" stroke="currentColor" stroke-width="2.4"/><path d="m11 16.5 3.5 3.5 7-8" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              <div><h3>You check before anything is saved</h3><p>Orbit proposes cards. You keep, move or drop every line.</p></div>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- 06 JOIN -->
+    <section class="section night join" id="join" aria-labelledby="join-title">
+      <div class="stars" aria-hidden="true"></div>
+      <div class="wrap join-grid">
+        <div class="join-copy">
+          <p class="kicker on-night" data-reveal><span>06</span> Your move</p>
+          <h2 class="big on-night" id="join-title" data-reveal>Be one of the first <em>to use it.</em></h2>
+          <p class="body-l on-night" data-reveal>We are opening Orbit to a small test group first. Join with 2 € and you are in the first group, with a direct line to the people building it. Rather wait? The free waitlist is always open.</p>
+          <blockquote class="why" data-reveal>
+            <p><strong>Why 2 €?</strong> Anyone can say "sounds interesting". Two euros says "I would really use this". We would rather build Orbit with people who want it than with everyone who nods politely.</p>
+          </blockquote>
+        </div>
+
+        <div class="join-card" data-reveal>
+          <form id="join-form" novalidate>
+            <fieldset class="choices">
+              <legend class="sr">How would you like to join?</legend>
+              <label class="choice">
+                <input type="radio" name="intent" value="test_group" checked>
+                <span class="choice-body">
+                  <span class="choice-top"><strong>Test group</strong><span class="choice-price">2 €</span></span>
+                  <span class="choice-sub">First access, a say in what we build, a direct line to the team.</span>
+                </span>
+              </label>
+              <label class="choice">
+                <input type="radio" name="intent" value="waitlist">
+                <span class="choice-body">
+                  <span class="choice-top"><strong>Waitlist</strong><span class="choice-price free">Free</span></span>
+                  <span class="choice-sub">We will write to you when Orbit opens up to more people.</span>
+                </span>
+              </label>
+            </fieldset>
+
+            <label class="field" for="email">Your email</label>
+            <input class="input" id="email" name="email" type="email" inputmode="email" autocomplete="email" placeholder="you@example.com" required maxlength="254">
+            <div class="hp" aria-hidden="true"><label>Company <input type="text" name="company" tabindex="-1" autocomplete="off"></label></div>
+
+            <button class="btn btn-sun btn-block" id="submit" type="submit"><span id="submit-label">Join the test group · 2 €</span></button>
+            <p class="form-note" id="form-note">One email, no newsletter spam. We only write about Orbit.</p>
+            <p class="form-error" id="form-error" role="alert" hidden></p>
+          </form>
+
+          <div class="done" id="done" hidden tabindex="-1" aria-live="polite">
+            <div class="done-check" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="m6 12.5 4 4 8-9" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+            <h3 id="done-title">You are on the list.</h3>
+            <p id="done-text"></p>
+            <a class="btn btn-sun btn-block" id="paypal" href="#" target="_blank" rel="noopener noreferrer" hidden>Pay 2 € with PayPal</a>
+            <p class="form-note" id="paypal-note" hidden></p>
+            <button class="link-btn" id="upgrade" type="button" hidden>Want in earlier? Join the test group for 2 €</button>
+          </div>
+
+          <p class="already" id="already">Already on the list? <a id="paypal-direct" href="#" target="_blank" rel="noopener noreferrer">Pay your 2 € with PayPal</a></p>
+        </div>
+      </div>
+    </section>
+
+    <!-- FAQ -->
+    <section class="section light faq" id="faq">
+      <div class="wrap split">
+        <div class="split-head">
+          <p class="kicker" data-reveal>Questions</p>
+          <h2 class="big" data-reveal>Good to <em>know.</em></h2>
+          <p class="body-l" data-reveal>Still curious? Write to <a data-contact href="mailto:hello@example.com">hello@example.com</a>. A real person answers.</p>
+        </div>
+        <div class="faq-list" data-reveal>
+          <details>
+            <summary>What exactly is Orbit?</summary>
+            <p>A mobile app that works like a social memory. After you meet someone you speak for ten seconds, Orbit files what you said under the right person, and later nudges you to follow up. You can also just ask it: "What do I know about Jonas?"</p>
+          </details>
+          <details>
+            <summary>What do I get for 2 €?</summary>
+            <p>A seat in the first test group: early access to the app, and a direct line to the people building it, so your feedback shapes what Orbit becomes. It is a small commitment, not a purchase.</p>
+          </details>
+          <details>
+            <summary>Why do you charge anything at all?</summary>
+            <p>To keep the group honest and small. We want feedback from people who really want this, not polite interest. Two euros is a simple way to tell the difference.</p>
+          </details>
+          <details>
+            <summary>Can I get the 2 € back?</summary>
+            <p>Yes. If you change your mind before your group opens, write to <a data-contact href="mailto:hello@example.com">hello@example.com</a> and we will send it back.</p>
+          </details>
+          <details>
+            <summary>How does the payment work?</summary>
+            <p>You leave your email first, then pay 2 € through PayPal. We match payments to emails by hand, so use the same email if you can. If your PayPal email is different, just write to us.</p>
+          </details>
+          <details>
+            <summary>When do I get access?</summary>
+            <p>We let people in in small groups, test-group members first, in the order they joined. We will email you with everything you need when your group opens.</p>
+          </details>
+          <details>
+            <summary>Is my data private?</summary>
+            <p>Your notes live in your own account and nobody else can browse them. Sharing happens only by QR code, in person. Details are in our <a href="privacy.html">privacy notice</a>.</p>
+          </details>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="wrap footer-in">
+      <a class="brand" href="#top" aria-label="Orbit, back to top">
+        <span class="tile"><svg viewBox="0 0 100 100" aria-hidden="true"><use href="#orbit-mark" width="100" height="100"/></svg></span>
+        <span class="brand-name">orbit</span>
+      </a>
+      <p class="footer-claim">Private. Yours.</p>
+      <nav class="footer-links" aria-label="Legal">
+        <a href="impressum.html">Legal notice</a>
+        <a href="privacy.html">Privacy</a>
+        <a data-contact href="mailto:hello@example.com">Contact</a>
+      </nav>
+      <p class="footer-fine">© 2026 Orbit. Screens show sample data.</p>
+    </div>
+  </footer>
+
+  <script src="config.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
