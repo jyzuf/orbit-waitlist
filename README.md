@@ -45,6 +45,8 @@ update waitlist set paid_at = now() where email = 'someone@example.com';
 
 `intent` is `test_group` (wants a seat, pays 2 €) or `waitlist` (free). Joining twice is fine: the entry is updated, and a test-group choice is never downgraded.
 
+A new test-group signup also sends one email to jyzustudio@gmail.com, through FormSubmit. The free waitlist does not, and a repeat signup does not send a second mail. The first time, FormSubmit sends an activation link to that inbox. The notification mails start after that link is opened.
+
 ## Re-shoot the app screens
 
 The screens are real screenshots of the running app, filled with sample data (`tools/state.mjs`). Nothing in the app is changed for this, and nothing is written to your account: the script feeds the app a fake session and answers its Supabase reads itself.
