@@ -10,5 +10,5 @@ window.ORBIT_SITE = {
   priceEur: 2,
 
   // Contact links open a mail to this address. Leave empty until you have one.
-  contactEmail: '',
+  contactEmail: 'netlink.orbit@gmail.com',
 }
