@@ -9,6 +9,6 @@ window.ORBIT_SITE = {
   paypalHandle: 'YOUR-PAYPAL-NAME',
   priceEur: 2,
 
-  // Shown in the FAQ, the legal pages and the "something went wrong" message.
-  contactEmail: 'hello@example.com',
+  // Contact links open a mail to this address. Leave empty until you have one.
+  contactEmail: '',
 }

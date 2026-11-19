@@ -6,12 +6,12 @@
   const price = cfg.priceEur || 2
 
   // ---------- Contact address ----------
-  if (cfg.contactEmail) {
-    for (const link of $$('[data-contact]')) {
-      link.href = `mailto:${cfg.contactEmail}`
-      if (link.textContent.includes('@')) link.textContent = cfg.contactEmail
-    }
-    for (const node of $$('[data-contact-text]')) node.textContent = cfg.contactEmail
+  for (const link of $$('[data-contact]')) {
+    if (!cfg.contactEmail) continue
+    link.href = `mailto:${cfg.contactEmail}`
+  }
+  for (const node of $$('[data-contact-text]')) {
+    if (cfg.contactEmail) node.textContent = cfg.contactEmail
   }
 
   // ---------- Reveal on scroll ----------

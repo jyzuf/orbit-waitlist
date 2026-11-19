@@ -5,8 +5,6 @@ A static site: plain HTML, CSS and a little JavaScript. No build step, no framew
 ```
 website/
   index.html        the story page
-  impressum.html    legal notice (fill in your details)
-  privacy.html      privacy notice (fill in your details)
   config.js         PayPal handle, contact email, public Supabase settings
   styles.css, script.js
   assets/           screens, fonts, favicon, share image
@@ -16,9 +14,8 @@ website/
 ## Before you publish
 
 1. **PayPal.** In `config.js` set `paypalHandle` to your PayPal.me name (the part after `paypal.me/`). The button then opens `https://paypal.me/<name>/2EUR`. While the placeholder is still there, the live site hides the PayPal button and tells people the link follows by email. On `localhost` it still shows, so you can preview it.
-2. **Contact email.** Set `contactEmail` in `config.js`. It is used in the FAQ, the footer and both legal pages.
-3. **Legal pages.** Fill in the highlighted `[...]` fields in `impressum.html` and `privacy.html`, and have them checked for your situation.
-4. **FAQ.** The answer "Can I get the 2 € back?" promises a refund. Keep it, change it or delete it, it is your call.
+2. **Contact email.** Set `contactEmail` in `config.js`. The Contact link and the “write to us” lines then open a mail to that address.
+3. **FAQ.** The answer "Can I get the 2 € back?" promises a refund. Keep it, change it or delete it, it is your call.
 
 ## Preview locally
 
