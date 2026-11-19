@@ -156,7 +156,7 @@
 
   const NOTES = {
     test_group: 'One email, no newsletter spam. After this you pay 2 € with PayPal to confirm your seat.',
-    waitlist: 'One email, no newsletter spam. We only write about Orbit.',
+    waitlist: 'One email, no newsletter spam. We only write about Netlink.',
   }
   const intent = () => form.elements.intent.value
 
@@ -219,7 +219,7 @@
       text.append('We will write to ')
       const strong = document.createElement('strong')
       strong.textContent = address
-      text.append(strong, ' when Orbit opens up to more people.')
+      text.append(strong, ' when Netlink opens up to more people.')
     }
     paypal.hidden = !(test && showPayPal)
     paypal.textContent = `Pay ${price} € with PayPal`

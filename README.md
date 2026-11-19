@@ -1,4 +1,4 @@
-# Orbit waitlist site
+# Netlink waitlist site
 
 A static site: plain HTML, CSS and a little JavaScript. No build step, no framework, no tracking, fonts are self-hosted.
 
