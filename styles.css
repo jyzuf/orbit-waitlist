@@ -379,13 +379,11 @@ html:not(.js) .slide { transform: none; opacity: 1; }
 .input:focus { outline: none; border-color: var(--accent); background: #fff; box-shadow: 0 0 0 4px rgba(14, 138, 120, 0.16); }
 .input[aria-invalid="true"] { border-color: var(--danger); box-shadow: 0 0 0 4px rgba(214, 69, 93, 0.14); }
 .hp { position: absolute; left: -9999px; top: auto; width: 1px; height: 1px; overflow: hidden; }
-.consent {
-  display: flex; gap: 10px; align-items: flex-start; margin-top: 14px;
-  font-size: 0.92rem; line-height: 1.45; color: var(--muted); text-align: left;
-}
-.consent input { width: 18px; height: 18px; margin-top: 2px; accent-color: var(--night); flex: none; }
 #submit { margin-top: 16px; }
-#subscribe { margin-top: 8px; }
+.updates-step { margin: 4px 0 22px; padding: 16px 16px 18px; border-radius: 20px; background: #F5F8FD; }
+.done .updates-ask { margin: 0 0 14px; color: var(--muted); font-size: 0.95rem; }
+.updates-step .form-note { margin: 12px 0 0; }
+#subscribe { margin-top: 0; }
 #paypal-slot { margin-top: 4px; }
 #paypal-container-A8EYKN2GV4N7Y { min-height: 50px; }
 #paypal-form-fields-container-A8EYKN2GV4N7Y { justify-content: center !important; }

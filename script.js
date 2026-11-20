@@ -181,8 +181,8 @@
   }
 
   const NOTES = {
-    test_group: 'Next you pay 2 € with PayPal. Update mails start after you tick the box and confirm the mail.',
-    waitlist: 'We write once when Netlink opens to more people. Update mails start after you tick the box and confirm the mail.',
+    test_group: 'Next you pay 2 € with PayPal.',
+    waitlist: 'We write once when Netlink opens to more people.',
   }
   const intent = () => form.elements.intent.value
 
@@ -245,7 +245,7 @@
     }
   }
 
-  function showDone(address, choice, updates, mailed, confirmed) {
+  function showDone(address, choice, mailed, confirmed, failed) {
     form.hidden = true
     done.hidden = false
     const test = choice === 'test_group'
@@ -253,7 +253,7 @@
     const text = $('#done-text')
     text.textContent = ''
     if (test) {
-      text.append('Last step: pay ', `${price} €`, ' with PayPal to confirm it. We match payments to emails by hand, so if your PayPal email is not ')
+      text.append('Pay ', `${price} €`, ' with PayPal to confirm it. We match payments to emails by hand, so if your PayPal email is not ')
       const strong = document.createElement('strong')
       strong.textContent = address
       text.append(strong, ', just write to us.')
@@ -264,7 +264,6 @@
       text.append(strong, ' when Netlink opens up to more people.')
     }
     if (test) {
-      done.insertBefore(paypalSlot, $('#subscribe'))
       showPayPalButton()
     } else {
       paypalSlot.hidden = true
@@ -272,13 +271,14 @@
     upgrade.hidden = test
     upgrade.onclick = async () => {
       upgrade.disabled = true
-      const result = await save(address, 'test_group', updates)
+      const result = await save(address, 'test_group', false)
       upgrade.disabled = false
-      if (result === 'ok') showDone(address, 'test_group', updates, mailed, confirmed)
+      if (result === 'ok') showDone(address, 'test_group', mailed, confirmed, failed)
     }
     const subscribe = $('#subscribe')
     const subscribeNote = $('#subscribe-note')
-    const askAgain = async () => {
+    const ask = $('#updates-ask')
+    const sendUpdates = async () => {
       subscribe.disabled = true
       const result = await save(address, choice, true)
       if (result !== 'ok') {
@@ -288,32 +288,24 @@
         return
       }
       const sent = await sendSubscribeNotice(address)
-      showDone(address, choice, true, sent.mailed, sent.confirmed)
+      showDone(address, choice, sent.mailed, sent.confirmed, !sent.mailed && !sent.confirmed)
     }
-    if (updates && (mailed || confirmed)) {
+    ask.hidden = Boolean(mailed || confirmed)
+    if (confirmed || mailed) {
       subscribe.hidden = true
       subscribeNote.hidden = false
       subscribeNote.textContent = ''
       const where = document.createElement('strong')
       where.textContent = address
-      if (confirmed) {
-        subscribeNote.append('Updates to ', where, ' are confirmed. Every mail has a link to stop them.')
-      } else {
-        subscribeNote.append('Check ', where, ' and click the link to confirm you want these updates.')
-      }
-    } else if (updates) {
-      subscribe.hidden = false
-      subscribe.disabled = false
-      subscribe.textContent = 'Send the confirmation mail again'
-      subscribeNote.hidden = false
-      subscribeNote.textContent = 'The confirmation mail did not go out. Please try again.'
-      subscribe.onclick = askAgain
+      if (confirmed) subscribeNote.append('Updates to ', where, ' are confirmed. Every mail has a link to stop them.')
+      else subscribeNote.append('Check ', where, ' and click the link to confirm you want these updates.')
     } else {
       subscribe.hidden = false
       subscribe.disabled = false
-      subscribe.textContent = 'Email me occasional updates'
-      subscribeNote.hidden = true
-      subscribe.onclick = askAgain
+      subscribe.textContent = failed ? 'Send the confirmation mail again' : 'Email me occasional updates'
+      subscribeNote.hidden = !failed
+      if (failed) subscribeNote.textContent = 'The confirmation mail did not go out. Please try again.'
+      subscribe.onclick = sendUpdates
     }
     already.hidden = true
     done.focus({ preventScroll: true })
@@ -332,7 +324,6 @@
     email.removeAttribute('aria-invalid')
     const address = email.value.trim().toLowerCase()
     const choice = intent()
-    const updates = Boolean(form.elements.updates.checked)
 
     if (!validEmail(address)) {
       email.setAttribute('aria-invalid', 'true')
@@ -341,17 +332,14 @@
       return
     }
     // A hidden field that only bots fill in. Pretend it worked, store nothing.
-    if (form.elements.company.value) return showDone(address, choice, updates, false, false)
+    if (form.elements.company.value) return showDone(address, choice, false, false, false)
 
     submit.disabled = true
     submitLabel.textContent = 'Saving…'
-    const result = await save(address, choice, updates)
+    const result = await save(address, choice, false)
     submit.disabled = false
     refresh()
-    if (result === 'ok') {
-      const notice = updates ? await sendSubscribeNotice(address) : { mailed: false, confirmed: false }
-      return showDone(address, choice, updates, notice.mailed, notice.confirmed)
-    }
+    if (result === 'ok') return showDone(address, choice, false, false, false)
     if (result === 'email') {
       email.setAttribute('aria-invalid', 'true')
       return showError('That email does not look right. Could you check it?')

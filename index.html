@@ -313,10 +313,6 @@
 
             <label class="field" for="email">Your email</label>
             <input class="input" id="email" name="email" type="email" inputmode="email" autocomplete="email" placeholder="you@example.com" required maxlength="254">
-            <label class="consent">
-              <input id="updates" name="updates" type="checkbox">
-              <span>Email me occasional updates about Netlink. You can stop them from any mail.</span>
-            </label>
             <div class="hp" aria-hidden="true"><label>Company <input type="text" name="company" tabindex="-1" autocomplete="off"></label></div>
 
             <button class="btn btn-sun btn-block" id="submit" type="submit"><span id="submit-label">Join the test group · 2 €</span></button>
@@ -328,12 +324,15 @@
             <div class="done-check" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="m6 12.5 4 4 8-9" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
             <h3 id="done-title">You are on the list.</h3>
             <p id="done-text"></p>
+            <div class="updates-step" id="updates-step">
+              <p class="updates-ask" id="updates-ask">Want occasional updates about Netlink? We will send one mail, and you confirm from there.</p>
+              <button class="btn btn-sun btn-block" id="subscribe" type="button">Email me occasional updates</button>
+              <p class="form-note" id="subscribe-note" hidden></p>
+            </div>
             <div id="paypal-slot" hidden>
               <div id="paypal-container-A8EYKN2GV4N7Y"></div>
               <p class="form-note" id="paypal-note">Use the same email in PayPal if you can. Your seat is confirmed once we see the payment.</p>
             </div>
-            <button class="btn btn-sun btn-block" id="subscribe" type="button" hidden>Email me occasional updates</button>
-            <p class="form-note" id="subscribe-note" hidden></p>
             <button class="link-btn" id="upgrade" type="button" hidden>Want in earlier? Join the test group for 2 €</button>
           </div>
 
