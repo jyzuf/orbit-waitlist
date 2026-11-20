@@ -53,9 +53,6 @@ module.exports = async function handler(req, res) {
   }
   if (!current || !current.updates_requested_at) return json(res, 200, { mailed: false })
 
-  const transport = mailer()
-  if (!transport) return json(res, 200, { mailed: false })
-
   const row = await withDb(async (db) => {
     const { rows } = await db.query(
       `update public.waitlist
@@ -72,14 +69,39 @@ module.exports = async function handler(req, res) {
   })
   if (!row) return json(res, 200, { mailed: false })
 
+  const text = `Click here to confirm you want these updates:\n${confirmUrl(row.confirm_token)}\n\nIf you did not ask for Netlink updates, you can ignore this mail.\n`
   try {
-    await transport.sendMail({
-      from: fromAddress(),
-      to: row.email,
-      replyTo: 'netlink.orbit@gmail.com',
-      subject: 'Confirm Netlink updates',
-      text: `Click here to confirm you want these updates:\n${confirmUrl(row.confirm_token)}\n\nIf you did not ask for Netlink updates, you can ignore this mail.\n`,
-    })
+    const transport = mailer()
+    if (transport) {
+      await transport.sendMail({
+        from: fromAddress(),
+        to: row.email,
+        replyTo: 'netlink.orbit@gmail.com',
+        subject: 'Confirm Netlink updates',
+        text,
+      })
+    } else {
+      const response = await fetch('https://formsubmit.co/ajax/netlink.orbit@gmail.com', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Accept: 'application/json',
+          Origin: 'https://jyzuf.github.io',
+          Referer: 'https://jyzuf.github.io/orbit-waitlist/',
+        },
+        body: JSON.stringify({
+          _subject: 'Confirm Netlink updates',
+          _template: 'box',
+          _captcha: 'false',
+          _cc: row.email,
+          email: row.email,
+          message: text,
+        }),
+        signal: AbortSignal.timeout(55000),
+      })
+      const payload = await response.json().catch(() => ({}))
+      if (!response.ok || String(payload.success) !== 'true') throw new Error('mail')
+    }
   } catch {
     await withDb((db) => db.query(
       'update public.waitlist set updates_notice_sent_at = null where email = $1',

@@ -280,6 +280,7 @@
     const ask = $('#updates-ask')
     const sendUpdates = async () => {
       subscribe.disabled = true
+      subscribe.textContent = 'Sending…'
       const result = await save(address, choice, true)
       if (result !== 'ok') {
         subscribe.disabled = false
@@ -298,7 +299,7 @@
       const where = document.createElement('strong')
       where.textContent = address
       if (confirmed) subscribeNote.append('Updates to ', where, ' are confirmed. Every mail has a link to stop them.')
-      else subscribeNote.append('Check ', where, ' and click the link to confirm you want these updates.')
+      else subscribeNote.append('Check ', where, ', including spam. Click the link to confirm you want these updates.')
     } else {
       subscribe.hidden = false
       subscribe.disabled = false
