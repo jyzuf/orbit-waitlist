@@ -63,9 +63,47 @@ function mailer() {
   })
 }
 
+const SENDER = 'netlink.orbit@gmail.com'
+
 function fromAddress() {
-  const user = process.env.SMTP_USER || 'netlink.orbit@gmail.com'
+  const user = process.env.SMTP_USER || SENDER
   return `Netlink <${user}>`
+}
+
+function mailReady() {
+  return Boolean(process.env.BREVO_API_KEY || process.env.SMTP_PASS)
+}
+
+async function deliverMail({ to, subject, text }) {
+  if (process.env.BREVO_API_KEY) {
+    const response = await fetch('https://api.brevo.com/v3/smtp/email', {
+      method: 'POST',
+      headers: {
+        'api-key': process.env.BREVO_API_KEY,
+        accept: 'application/json',
+        'content-type': 'application/json',
+      },
+      body: JSON.stringify({
+        sender: { name: 'Netlink', email: SENDER },
+        to: [{ email: to }],
+        replyTo: { email: SENDER },
+        subject,
+        textContent: text,
+      }),
+      signal: AbortSignal.timeout(20000),
+    })
+    if (!response.ok) throw new Error('brevo')
+    return
+  }
+  const transport = mailer()
+  if (!transport) throw new Error('mail')
+  await transport.sendMail({
+    from: fromAddress(),
+    to,
+    replyTo: SENDER,
+    subject,
+    text,
+  })
 }
 
 function unsubscribeUrl(token) {
@@ -115,6 +153,8 @@ module.exports = {
   withDb,
   mailer,
   fromAddress,
+  mailReady,
+  deliverMail,
   withFooter,
   confirmUrl,
   json,

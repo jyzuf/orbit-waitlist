@@ -1,4 +1,4 @@
-const { withDb, mailer, fromAddress, confirmUrl, json, readBody } = require('./_lib')
+const { withDb, mailReady, deliverMail, confirmUrl, json, readBody } = require('./_lib')
 
 const ALLOWED = new Set([
   'https://netlink-one.vercel.app',
@@ -71,15 +71,8 @@ module.exports = async function handler(req, res) {
 
   const text = `Click here to confirm you want these updates:\n${confirmUrl(row.confirm_token)}\n\nIf you did not ask for Netlink updates, you can ignore this mail.\n`
   try {
-    const transport = mailer()
-    if (transport) {
-      await transport.sendMail({
-        from: fromAddress(),
-        to: row.email,
-        replyTo: 'netlink.orbit@gmail.com',
-        subject: 'Confirm Netlink updates',
-        text,
-      })
+    if (mailReady()) {
+      await deliverMail({ to: row.email, subject: 'Confirm Netlink updates', text })
     } else {
       const response = await fetch('https://formsubmit.co/ajax/netlink.orbit@gmail.com', {
         method: 'POST',

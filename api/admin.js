@@ -1,4 +1,4 @@
-const { sameSecret, signToken, tokenOk, bearer, withDb, mailer, fromAddress, withFooter, json, readBody } = require('./_lib')
+const { sameSecret, signToken, tokenOk, bearer, withDb, mailReady, deliverMail, withFooter, json, readBody } = require('./_lib')
 
 module.exports = async function handler(req, res) {
   if (req.method !== 'POST') {
@@ -43,7 +43,7 @@ module.exports = async function handler(req, res) {
     }
     const updates = people.filter(confirmed).length
     const waiting = people.filter(waitingFor).length
-    return json(res, 200, { people, updates, waiting, mailReady: Boolean(process.env.SMTP_PASS) })
+    return json(res, 200, { people, updates, waiting, mailReady: mailReady() })
   }
 
   if (body.action === 'send') {
@@ -54,8 +54,7 @@ module.exports = async function handler(req, res) {
     }
     if (!text || text.length > 5000) return json(res, 400, { error: 'text' })
 
-    const transport = mailer()
-    if (!transport) return json(res, 503, { error: 'mail_not_configured' })
+    if (!mailReady()) return json(res, 503, { error: 'mail_not_configured' })
 
     const rows = await withDb(async (db) => {
       const result = await db.query(`
@@ -73,10 +72,8 @@ module.exports = async function handler(req, res) {
     const failed = []
     for (const row of rows) {
       try {
-        await transport.sendMail({
-          from: fromAddress(),
+        await deliverMail({
           to: row.email,
-          replyTo: 'netlink.orbit@gmail.com',
           subject,
           text: withFooter(text, row.unsubscribe_token),
         })
