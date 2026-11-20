@@ -181,8 +181,8 @@
   }
 
   const NOTES = {
-    test_group: 'Next you pay 2 € with PayPal. Update mails only go out if you tick the box.',
-    waitlist: 'We write once when Netlink opens to more people. Updates only if you tick the box.',
+    test_group: 'Next you pay 2 € with PayPal. Update mails start after you tick the box and confirm the mail.',
+    waitlist: 'We write once when Netlink opens to more people. Update mails start after you tick the box and confirm the mail.',
   }
   const intent = () => form.elements.intent.value
 
@@ -237,15 +237,15 @@
         headers: { 'content-type': 'application/json' },
         body: JSON.stringify({ email: address }),
       })
-      if (!response.ok) return false
+      if (!response.ok) return { mailed: false, confirmed: false }
       const body = await response.json().catch(() => ({}))
-      return body.mailed === true
+      return { mailed: body.mailed === true, confirmed: body.confirmed === true }
     } catch {
-      return false
+      return { mailed: false, confirmed: false }
     }
   }
 
-  function showDone(address, choice, updates, mailed) {
+  function showDone(address, choice, updates, mailed, confirmed) {
     form.hidden = true
     done.hidden = false
     const test = choice === 'test_group'
@@ -274,34 +274,46 @@
       upgrade.disabled = true
       const result = await save(address, 'test_group', updates)
       upgrade.disabled = false
-      if (result === 'ok') showDone(address, 'test_group', updates, mailed)
+      if (result === 'ok') showDone(address, 'test_group', updates, mailed, confirmed)
     }
     const subscribe = $('#subscribe')
     const subscribeNote = $('#subscribe-note')
-    if (updates) {
+    const askAgain = async () => {
+      subscribe.disabled = true
+      const result = await save(address, choice, true)
+      if (result !== 'ok') {
+        subscribe.disabled = false
+        subscribeNote.hidden = false
+        subscribeNote.textContent = 'We could not save that. Please try again.'
+        return
+      }
+      const sent = await sendSubscribeNotice(address)
+      showDone(address, choice, true, sent.mailed, sent.confirmed)
+    }
+    if (updates && (mailed || confirmed)) {
       subscribe.hidden = true
       subscribeNote.hidden = false
       subscribeNote.textContent = ''
-      subscribeNote.append('Occasional updates will go to ')
       const where = document.createElement('strong')
       where.textContent = address
-      subscribeNote.append(where, mailed ? '. We just sent a short confirmation.' : '. Every mail has a link to stop them.')
+      if (confirmed) {
+        subscribeNote.append('Updates to ', where, ' are confirmed. Every mail has a link to stop them.')
+      } else {
+        subscribeNote.append('Check ', where, ' and click the link to confirm you want these updates.')
+      }
+    } else if (updates) {
+      subscribe.hidden = false
+      subscribe.disabled = false
+      subscribe.textContent = 'Send the confirmation mail again'
+      subscribeNote.hidden = false
+      subscribeNote.textContent = 'The confirmation mail did not go out. Please try again.'
+      subscribe.onclick = askAgain
     } else {
       subscribe.hidden = false
       subscribe.disabled = false
+      subscribe.textContent = 'Email me occasional updates'
       subscribeNote.hidden = true
-      subscribe.onclick = async () => {
-        subscribe.disabled = true
-        const result = await save(address, choice, true)
-        if (result !== 'ok') {
-          subscribe.disabled = false
-          subscribeNote.hidden = false
-          subscribeNote.textContent = 'We could not save that. Please try again.'
-          return
-        }
-        const sent = await sendSubscribeNotice(address)
-        showDone(address, choice, true, sent)
-      }
+      subscribe.onclick = askAgain
     }
     already.hidden = true
     done.focus({ preventScroll: true })
@@ -329,7 +341,7 @@
       return
     }
     // A hidden field that only bots fill in. Pretend it worked, store nothing.
-    if (form.elements.company.value) return showDone(address, choice, updates, false)
+    if (form.elements.company.value) return showDone(address, choice, updates, false, false)
 
     submit.disabled = true
     submitLabel.textContent = 'Saving…'
@@ -337,8 +349,8 @@
     submit.disabled = false
     refresh()
     if (result === 'ok') {
-      const mailed = updates ? await sendSubscribeNotice(address) : false
-      return showDone(address, choice, updates, mailed)
+      const notice = updates ? await sendSubscribeNotice(address) : { mailed: false, confirmed: false }
+      return showDone(address, choice, updates, notice.mailed, notice.confirmed)
     }
     if (result === 'email') {
       email.setAttribute('aria-invalid', 'true')

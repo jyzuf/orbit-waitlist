@@ -72,6 +72,10 @@ function unsubscribeUrl(token) {
   return `${SITE}/api/unsubscribe?token=${token}`
 }
 
+function confirmUrl(token) {
+  return `${SITE}/api/confirm?token=${token}`
+}
+
 function withFooter(text, token) {
   return `${text.trim()}\n\n—\nYou asked for occasional Netlink updates. Stop these mails:\n${unsubscribeUrl(token)}\n`
 }
@@ -112,6 +116,7 @@ module.exports = {
   mailer,
   fromAddress,
   withFooter,
+  confirmUrl,
   json,
   readBody,
 }

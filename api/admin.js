@@ -29,14 +29,21 @@ module.exports = async function handler(req, res) {
   if (body.action === 'list') {
     const people = await withDb(async (db) => {
       const { rows } = await db.query(`
-        select email, intent, updates_opt_in, updates_opt_in_at, unsubscribed_at, created_at, paid_at
+        select email, intent, updates_opt_in, updates_opt_in_at, updates_requested_at, unsubscribed_at, created_at, paid_at
         from public.waitlist
         order by created_at desc
       `)
       return rows
     })
-    const updates = people.filter((row) => row.updates_opt_in && !row.unsubscribed_at).length
-    return json(res, 200, { people, updates, mailReady: Boolean(process.env.SMTP_PASS) })
+    const confirmed = (row) => row.updates_opt_in && !row.unsubscribed_at
+    const waitingFor = (row) => {
+      if (!row.updates_requested_at || confirmed(row)) return false
+      if (!row.unsubscribed_at) return !row.updates_opt_in
+      return new Date(row.updates_requested_at) > new Date(row.unsubscribed_at)
+    }
+    const updates = people.filter(confirmed).length
+    const waiting = people.filter(waitingFor).length
+    return json(res, 200, { people, updates, waiting, mailReady: Boolean(process.env.SMTP_PASS) })
   }
 
   if (body.action === 'send') {

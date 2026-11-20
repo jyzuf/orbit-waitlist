@@ -30,8 +30,10 @@
   }
 
   function statusOf(row) {
+    if (row.updates_opt_in && !row.unsubscribed_at) return 'Updates confirmed'
+    const asked = row.updates_requested_at && (!row.unsubscribed_at || new Date(row.updates_requested_at) > new Date(row.unsubscribed_at))
+    if (asked && !row.updates_opt_in) return 'Waiting for confirm'
     if (row.unsubscribed_at) return 'Unsubscribed'
-    if (row.updates_opt_in) return 'Updates yes'
     return 'Updates no'
   }
 
@@ -40,7 +42,10 @@
     mailReady = Boolean(body.mailReady)
     mailBanner.hidden = mailReady
     const total = body.people.length
-    count.textContent = `${total} on the list. ${updates} agreed to updates.`
+    const waiting = body.waiting || 0
+    count.textContent = waiting
+      ? `${total} on the list. ${updates} confirmed updates. ${waiting} still have to click the mail.`
+      : `${total} on the list. ${updates} confirmed updates.`
     people.replaceChildren()
     for (const row of body.people) {
       const item = document.createElement('li')
