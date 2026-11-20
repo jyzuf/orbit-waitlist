@@ -2,6 +2,7 @@
   const cfg = window.ORBIT_SITE || {}
   const $ = (selector, root = document) => root.querySelector(selector)
   const $$ = (selector, root = document) => [...root.querySelectorAll(selector)]
+  const t = (key, vars) => window.NetlinkI18n?.t(key, vars) || ''
   const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)').matches
   const price = cfg.priceEur || 2
 
@@ -50,11 +51,22 @@
       const dot = document.createElement('button')
       dot.type = 'button'
       dot.className = 'pip'
-      dot.setAttribute('aria-label', `Show screen ${i + 1} of ${slides.length}: ${captions[i]?.querySelector('h3')?.textContent || ''}`)
       dot.addEventListener('click', () => go(i))
       pipBox.append(dot)
       return dot
     })
+
+    function labelPips() {
+      pips.forEach((dot, i) => {
+        dot.setAttribute('aria-label', t('a11y.pip', {
+          n: i + 1,
+          total: slides.length,
+          title: captions[i]?.querySelector('h3')?.textContent || '',
+        }))
+      })
+    }
+    labelPips()
+    document.addEventListener('netlink-lang', labelPips)
 
     const offsetFor = (i) => {
       const width = slides[0].offsetWidth
@@ -145,6 +157,7 @@
   const upgrade = $('#upgrade')
   let paypalLoading = null
   let paypalRendered = false
+  let paypalFailed = false
 
   function loadPayPal() {
     if (window.paypal?.HostedButtons) return Promise.resolve()
@@ -156,6 +169,7 @@
         components: 'hosted-buttons',
         'disable-funding': 'venmo',
         currency: 'EUR',
+        locale: window.NetlinkI18n?.lang === 'de' ? 'de_DE' : 'en_US',
       })
       script.src = `https://www.paypal.com/sdk/js?${params}`
       script.onload = () => resolve()
@@ -173,23 +187,27 @@
       await loadPayPal()
       await window.paypal.HostedButtons({ hostedButtonId: cfg.paypalButtonId }).render('#paypal-container-A8EYKN2GV4N7Y')
       paypalRendered = true
+      paypalFailed = false
     } catch {
-      paypalSlot.querySelector('#paypal-note').textContent = cfg.contactEmail
-        ? `The PayPal button did not load. Write to ${cfg.contactEmail} and we will send you the payment link.`
-        : 'The PayPal button did not load. Please try again in a moment.'
+      paypalFailed = true
+      writePayPalFailure()
     }
   }
 
-  const NOTES = {
-    test_group: 'Next you pay 2 € with PayPal.',
-    waitlist: 'We write once when Netlink opens to more people.',
+  function writePayPalFailure() {
+    const paypalNote = paypalSlot.querySelector('#paypal-note')
+    if (!paypalNote) return
+    paypalNote.textContent = cfg.contactEmail
+      ? t('paypal.fail', { email: cfg.contactEmail })
+      : t('paypal.fail.short')
   }
+
   const intent = () => form.elements.intent.value
 
   function refresh() {
     const test = intent() === 'test_group'
-    submitLabel.textContent = test ? `Join the test group · ${price} €` : 'Join the waitlist'
-    note.textContent = NOTES[intent()]
+    submitLabel.textContent = test ? t('submit.test', { price }) : t('submit.wait')
+    note.textContent = test ? t('note.test') : t('note.wait')
   }
   form.addEventListener('change', refresh)
   refresh()
@@ -203,9 +221,19 @@
     })
   }
 
-  const showError = (message) => {
-    errorBox.textContent = message
+  let errorKey = null
+  let errorVars = null
+  const showError = (key, vars) => {
+    errorKey = key
+    errorVars = vars || null
+    errorBox.textContent = t(key, errorVars)
     errorBox.hidden = false
+  }
+
+  function withAddress(node, beforeKey, afterKey, address, vars) {
+    const strong = document.createElement('strong')
+    strong.textContent = address
+    node.replaceChildren(t(beforeKey, vars), strong, t(afterKey, vars))
   }
 
   const validEmail = (value) => value.length <= 254 && /^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(value)
@@ -245,24 +273,17 @@
     }
   }
 
-  function showDone(address, choice, mailed, confirmed, failed) {
+  let doneState = null
+
+  function showDone(address, choice, mailed, confirmed, failed, quiet) {
+    doneState = { address, choice, mailed, confirmed, failed }
     form.hidden = true
     done.hidden = false
     const test = choice === 'test_group'
-    $('#done-title').textContent = test ? 'Your seat is reserved.' : 'You are on the list.'
+    $('#done-title').textContent = test ? t('done.test.title') : t('done.wait.title')
     const text = $('#done-text')
-    text.textContent = ''
-    if (test) {
-      text.append('Pay ', `${price} €`, ' with PayPal to confirm it. We match payments to emails by hand, so if your PayPal email is not ')
-      const strong = document.createElement('strong')
-      strong.textContent = address
-      text.append(strong, ', just write to us.')
-    } else {
-      text.append('We will write to ')
-      const strong = document.createElement('strong')
-      strong.textContent = address
-      text.append(strong, ' when Netlink opens up to more people.')
-    }
+    if (test) withAddress(text, 'done.test.before', 'done.test.after', address, { price })
+    else withAddress(text, 'done.wait.before', 'done.wait.after', address)
     if (test) {
       showPayPalButton()
     } else {
@@ -280,12 +301,12 @@
     const ask = $('#updates-ask')
     const sendUpdates = async () => {
       subscribe.disabled = true
-      subscribe.textContent = 'Sending…'
+      subscribe.textContent = t('sending')
       const result = await save(address, choice, true)
       if (result !== 'ok') {
         subscribe.disabled = false
         subscribeNote.hidden = false
-        subscribeNote.textContent = 'We could not save that. Please try again.'
+        subscribeNote.textContent = t('updates.savefail')
         return
       }
       const sent = await sendSubscribeNotice(address)
@@ -295,20 +316,18 @@
     if (confirmed || mailed) {
       subscribe.hidden = true
       subscribeNote.hidden = false
-      subscribeNote.textContent = ''
-      const where = document.createElement('strong')
-      where.textContent = address
-      if (confirmed) subscribeNote.append('Updates to ', where, ' are confirmed. Every mail has a link to stop them.')
-      else subscribeNote.append('Check ', where, ', including spam. Click the link to confirm you want these updates.')
+      if (confirmed) withAddress(subscribeNote, 'updates.ok.before', 'updates.ok.after', address)
+      else withAddress(subscribeNote, 'updates.sent.before', 'updates.sent.after', address)
     } else {
       subscribe.hidden = false
       subscribe.disabled = false
-      subscribe.textContent = failed ? 'Send the confirmation mail again' : 'Email me occasional updates'
+      subscribe.textContent = failed ? t('updates.again') : t('updates.btn')
       subscribeNote.hidden = !failed
-      if (failed) subscribeNote.textContent = 'The confirmation mail did not go out. Please try again.'
+      if (failed) subscribeNote.textContent = t('updates.fail')
       subscribe.onclick = sendUpdates
     }
     already.hidden = true
+    if (quiet) return
     done.focus({ preventScroll: true })
     done.scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth', block: 'center' })
   }
@@ -328,7 +347,7 @@
 
     if (!validEmail(address)) {
       email.setAttribute('aria-invalid', 'true')
-      showError('That email does not look right. Could you check it?')
+      showError('error.email')
       email.focus()
       return
     }
@@ -336,18 +355,25 @@
     if (form.elements.company.value) return showDone(address, choice, false, false, false)
 
     submit.disabled = true
-    submitLabel.textContent = 'Saving…'
+    submitLabel.textContent = t('saving')
     const result = await save(address, choice, false)
     submit.disabled = false
     refresh()
     if (result === 'ok') return showDone(address, choice, false, false, false)
     if (result === 'email') {
       email.setAttribute('aria-invalid', 'true')
-      return showError('That email does not look right. Could you check it?')
+      return showError('error.email')
     }
-    const contact = cfg.contactEmail ? ` or write to ${cfg.contactEmail}` : ''
-    showError(result === 'network'
-      ? `We could not reach the server. Check your connection and try again${contact}.`
-      : `Something went wrong on our side. Please try again${contact}.`)
+    const contact = cfg.contactEmail ? t('error.contact', { email: cfg.contactEmail }) : ''
+    showError(result === 'network' ? 'error.network' : 'error.server', { contact })
+  })
+
+  document.addEventListener('netlink-lang', () => {
+    refresh()
+    if (!errorBox.hidden && errorKey) showError(errorKey, errorVars)
+    if (paypalFailed) writePayPalFailure()
+    if (doneState && !done.hidden) {
+      showDone(doneState.address, doneState.choice, doneState.mailed, doneState.confirmed, doneState.failed, true)
+    }
   })
 })()

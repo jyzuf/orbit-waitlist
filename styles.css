@@ -83,9 +83,12 @@ button { font: inherit; color: inherit; cursor: pointer; }
 }
 .tile svg, .tile img { width: 100%; height: 100%; object-fit: contain; }
 .brand-name { font-family: var(--display); font-weight: 700; font-size: 1.55rem; letter-spacing: -0.04em; line-height: 1; }
-.nav-links { display: flex; gap: 28px; margin-left: auto; margin-right: 8px; }
+.nav-links { display: flex; gap: 22px; margin-left: auto; margin-right: 10px; }
 .nav-links a { color: rgba(255, 255, 255, 0.72); text-decoration: none; font-size: 0.94rem; font-weight: 500; transition: color 0.2s; }
 .nav-links a:hover { color: #fff; }
+.lang { display: inline-flex; flex: none; padding: 3px; border-radius: 999px; border: 1px solid rgba(255, 255, 255, 0.22); background: rgba(255, 255, 255, 0.04); }
+.lang-btn { min-width: 36px; min-height: 32px; padding: 0 8px; border: 0; border-radius: 999px; background: transparent; color: rgba(255, 255, 255, 0.7); font-weight: 750; font-size: 0.78rem; letter-spacing: 0.04em; }
+.lang-btn[aria-pressed="true"] { background: #fff; color: var(--night); }
 
 /* ---------- Buttons ---------- */
 .btn {
@@ -464,6 +467,7 @@ html:not(.js) .slide { transform: none; opacity: 1; }
 @media (max-width: 1020px) {
   :root { --slide-w: 250px; }
   .nav-links { display: none; }
+  .lang { margin-left: auto; margin-right: 10px; }
   .nav-in { justify-content: space-between; }
   .hero-grid { grid-template-columns: 1fr; gap: 12px; }
   .hero-copy { text-align: left; }
@@ -487,7 +491,9 @@ html:not(.js) .slide { transform: none; opacity: 1; }
   :root { --slide-w: min(58vw, 240px); --gap: 18px; }
   .stage { -webkit-mask-image: linear-gradient(90deg, transparent 0%, #000 7%, #000 93%, transparent 100%); mask-image: linear-gradient(90deg, transparent 0%, #000 7%, #000 93%, transparent 100%); }
   :root { --wrapw: min(1180px, 100vw - 36px); }
-  .nav-in { height: 62px; }
+  .nav-in { height: 62px; gap: 10px; }
+  .nav .btn-small { display: none; }
+  .lang { margin-right: 0; }
   .btn { width: 100%; }
   .btn-small { width: auto; }
   .cta-row { gap: 12px; }
