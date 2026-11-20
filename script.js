@@ -140,19 +140,45 @@
   const errorBox = $('#form-error')
   const done = $('#done')
   const already = $('#already')
-  const paypal = $('#paypal')
-  const paypalNote = $('#paypal-note')
+  const paypalSlot = $('#paypal-slot')
   const paypalDirect = $('#paypal-direct')
   const upgrade = $('#upgrade')
+  let paypalLoading = null
+  let paypalRendered = false
 
-  const handle = String(cfg.paypalHandle || '')
-  const paypalReady = handle !== '' && !/^(YOUR|REPLACE)/i.test(handle)
-  const isPreview = ['localhost', '127.0.0.1', ''].includes(location.hostname)
-  const showPayPal = paypalReady || isPreview
-  const paypalUrl = `https://paypal.me/${encodeURIComponent(handle)}/${price}EUR`
-  paypal.href = paypalUrl
-  paypalDirect.href = paypalUrl
-  if (!showPayPal) already.hidden = true
+  function loadPayPal() {
+    if (window.paypal?.HostedButtons) return Promise.resolve()
+    if (paypalLoading) return paypalLoading
+    paypalLoading = new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      const params = new URLSearchParams({
+        'client-id': cfg.paypalClientId,
+        components: 'hosted-buttons',
+        'disable-funding': 'venmo',
+        currency: 'EUR',
+      })
+      script.src = `https://www.paypal.com/sdk/js?${params}`
+      script.onload = () => resolve()
+      script.onerror = () => reject(new Error('PayPal did not load'))
+      document.head.appendChild(script)
+    })
+    return paypalLoading
+  }
+
+  async function showPayPalButton() {
+    if (!cfg.paypalClientId || !cfg.paypalButtonId) return
+    paypalSlot.hidden = false
+    if (paypalRendered) return
+    try {
+      await loadPayPal()
+      await window.paypal.HostedButtons({ hostedButtonId: cfg.paypalButtonId }).render('#paypal-container-A8EYKN2GV4N7Y')
+      paypalRendered = true
+    } catch {
+      paypalSlot.querySelector('#paypal-note').textContent = cfg.contactEmail
+        ? `The PayPal button did not load. Write to ${cfg.contactEmail} and we will send you the payment link.`
+        : 'The PayPal button did not load. Please try again in a moment.'
+    }
+  }
 
   const NOTES = {
     test_group: 'One email, no newsletter spam. After this you pay 2 € with PayPal to confirm your seat.',
@@ -221,12 +247,12 @@
       strong.textContent = address
       text.append(strong, ' when Netlink opens up to more people.')
     }
-    paypal.hidden = !(test && showPayPal)
-    paypal.textContent = `Pay ${price} € with PayPal`
-    paypalNote.hidden = !test
-    paypalNote.textContent = showPayPal
-      ? 'Opens PayPal in a new tab. Your seat is confirmed once we see the payment.'
-      : 'We will email you the PayPal link shortly.'
+    if (test) {
+      done.insertBefore(paypalSlot, upgrade)
+      showPayPalButton()
+    } else {
+      paypalSlot.hidden = true
+    }
     upgrade.hidden = test
     upgrade.onclick = async () => {
       upgrade.disabled = true
@@ -238,6 +264,12 @@
     done.focus({ preventScroll: true })
     done.scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth', block: 'center' })
   }
+
+  paypalDirect.addEventListener('click', () => {
+    already.insertAdjacentElement('afterend', paypalSlot)
+    showPayPalButton()
+    paypalSlot.scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth', block: 'center' })
+  })
 
   form.addEventListener('submit', async (event) => {
     event.preventDefault()

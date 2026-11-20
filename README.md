@@ -5,7 +5,7 @@ A static site: plain HTML, CSS and a little JavaScript. No build step, no framew
 ```
 website/
   index.html        the story page
-  config.js         PayPal handle, contact email, public Supabase settings
+  config.js         PayPal button, contact email, public Supabase settings
   styles.css, script.js
   assets/           screens, fonts, favicon, share image
   tools/            scripts that regenerate the screens and the share image
@@ -13,7 +13,7 @@ website/
 
 ## Before you publish
 
-1. **PayPal.** In `config.js` set `paypalHandle` to your PayPal.me name (the part after `paypal.me/`). The button then opens `https://paypal.me/<name>/2EUR`. While the placeholder is still there, the live site hides the PayPal button and tells people the link follows by email. On `localhost` it still shows, so you can preview it.
+1. **PayPal.** The test-group button is the hosted PayPal button in `config.js` (`paypalClientId` and `paypalButtonId`). It appears after someone leaves an email, and from “Already on the list?”.
 2. **Contact email.** Set `contactEmail` in `config.js`. The Contact link and the “write to us” lines then open a mail to that address.
 3. **FAQ.** The answer "Can I get the 2 € back?" promises a refund. Keep it, change it or delete it, it is your call.
 

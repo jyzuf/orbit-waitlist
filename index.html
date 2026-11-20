@@ -324,12 +324,14 @@
             <div class="done-check" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="m6 12.5 4 4 8-9" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
             <h3 id="done-title">You are on the list.</h3>
             <p id="done-text"></p>
-            <a class="btn btn-sun btn-block" id="paypal" href="#" target="_blank" rel="noopener noreferrer" hidden>Pay 2 € with PayPal</a>
-            <p class="form-note" id="paypal-note" hidden></p>
+            <div id="paypal-slot" hidden>
+              <div id="paypal-container-A8EYKN2GV4N7Y"></div>
+              <p class="form-note" id="paypal-note">Use the same email in PayPal if you can. Your seat is confirmed once we see the payment.</p>
+            </div>
             <button class="link-btn" id="upgrade" type="button" hidden>Want in earlier? Join the test group for 2 €</button>
           </div>
 
-          <p class="already" id="already">Already on the list? <a id="paypal-direct" href="#" target="_blank" rel="noopener noreferrer">Pay your 2 € with PayPal</a></p>
+          <p class="already" id="already">Already on the list? <button class="link-btn" id="paypal-direct" type="button">Pay your 2 € with PayPal</button></p>
         </div>
       </div>
     </section>

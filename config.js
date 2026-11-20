@@ -4,9 +4,9 @@ window.ORBIT_SITE = {
   supabaseUrl: 'https://fcpfixxcrloxlhvrgfsp.supabase.co',
   supabaseAnonKey: 'sb_publishable_UrhYORFrpZlGGVIozlST0A_2zJqAugl',
 
-  // Your PayPal.me name, the part after paypal.me/. Replace the placeholder before you publish.
-  // The button then opens https://paypal.me/<paypalHandle>/2EUR
-  paypalHandle: 'YOUR-PAYPAL-NAME',
+  // PayPal hosted button. The client id is public, it only renders this button.
+  paypalClientId: 'BAAuz6lJU6b19_caSL27iZA9d2edZDmLsPq4dPMzzldYNE0vzRzy3Uxd3F9tfcSZ_MonyZog69GB5Cmlrs',
+  paypalButtonId: 'A8EYKN2GV4N7Y',
   priceEur: 2,
 
   // Contact links open a mail to this address. Leave empty until you have one.
