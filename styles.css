@@ -379,7 +379,13 @@ html:not(.js) .slide { transform: none; opacity: 1; }
 .input:focus { outline: none; border-color: var(--accent); background: #fff; box-shadow: 0 0 0 4px rgba(14, 138, 120, 0.16); }
 .input[aria-invalid="true"] { border-color: var(--danger); box-shadow: 0 0 0 4px rgba(214, 69, 93, 0.14); }
 .hp { position: absolute; left: -9999px; top: auto; width: 1px; height: 1px; overflow: hidden; }
+.consent {
+  display: flex; gap: 10px; align-items: flex-start; margin-top: 14px;
+  font-size: 0.92rem; line-height: 1.45; color: var(--muted); text-align: left;
+}
+.consent input { width: 18px; height: 18px; margin-top: 2px; accent-color: var(--night); flex: none; }
 #submit { margin-top: 16px; }
+#subscribe { margin-top: 8px; }
 #paypal-slot { margin-top: 4px; }
 #paypal-container-A8EYKN2GV4N7Y { min-height: 50px; }
 #paypal-form-fields-container-A8EYKN2GV4N7Y { justify-content: center !important; }
@@ -497,6 +503,25 @@ html:not(.js) .slide { transform: none; opacity: 1; }
   .private-card { border-radius: 32px; }
   .faq-list details p { padding-right: 8px; }
 }
+/* ---------- Team list ---------- */
+.admin-page { min-height: 100vh; }
+.admin-wrap { width: min(760px, calc(100vw - 32px)); margin: 48px auto 72px; }
+.admin-mark { font-family: var(--display); font-weight: 700; letter-spacing: -0.04em; font-size: 1.4rem; }
+.admin-page h1 { font-family: var(--display); font-weight: 750; font-size: 2.4rem; letter-spacing: -0.04em; line-height: 1.1; margin: 8px 0 22px; }
+.admin-card { background: #fff; border-radius: 28px; padding: 22px; box-shadow: var(--card-shadow); }
+.admin-card h2 { font-family: var(--display); font-weight: 720; font-size: 1.35rem; letter-spacing: -0.03em; margin-bottom: 8px; }
+.admin-card .field { margin-top: 14px; }
+.admin-hint { color: var(--sub); font-size: 0.92rem; }
+.admin-text { height: auto; min-height: 160px; padding: 14px 18px; resize: vertical; }
+.admin-count { margin: 0 0 14px; font-weight: 650; }
+.admin-banner { margin: 0 0 16px; padding: 12px 14px; border-radius: 14px; background: #FBEBD3; color: #6E4810; font-size: 0.92rem; }
+.admin-list { display: grid; gap: 10px; margin-bottom: 22px; }
+.admin-list li { background: #fff; border-radius: 18px; padding: 14px 16px; box-shadow: var(--card-shadow); }
+.admin-list strong { display: block; font-weight: 680; word-break: break-word; }
+.admin-list span { color: var(--sub); font-size: 0.88rem; }
+#compose { margin-top: 8px; }
+#send { margin-top: 16px; }
+
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   *, *::before, *::after { animation: none !important; transition-duration: 0.01ms !important; }

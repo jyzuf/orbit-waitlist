@@ -313,6 +313,10 @@
 
             <label class="field" for="email">Your email</label>
             <input class="input" id="email" name="email" type="email" inputmode="email" autocomplete="email" placeholder="you@example.com" required maxlength="254">
+            <label class="consent">
+              <input id="updates" name="updates" type="checkbox">
+              <span>Email me occasional updates about Netlink. You can stop them from any mail.</span>
+            </label>
             <div class="hp" aria-hidden="true"><label>Company <input type="text" name="company" tabindex="-1" autocomplete="off"></label></div>
 
             <button class="btn btn-sun btn-block" id="submit" type="submit"><span id="submit-label">Join the test group · 2 €</span></button>
@@ -328,6 +332,8 @@
               <div id="paypal-container-A8EYKN2GV4N7Y"></div>
               <p class="form-note" id="paypal-note">Use the same email in PayPal if you can. Your seat is confirmed once we see the payment.</p>
             </div>
+            <button class="btn btn-sun btn-block" id="subscribe" type="button" hidden>Email me occasional updates</button>
+            <p class="form-note" id="subscribe-note" hidden></p>
             <button class="link-btn" id="upgrade" type="button" hidden>Want in earlier? Join the test group for 2 €</button>
           </div>
 

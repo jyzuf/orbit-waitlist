@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex">
+  <title>Netlink list</title>
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body class="admin-page">
+  <main class="admin-wrap">
+    <p class="admin-mark">netlink</p>
+    <h1>The list</h1>
+
+    <form class="admin-card" id="login">
+      <label class="field" for="password">Team password</label>
+      <input class="input" id="password" type="password" autocomplete="current-password" required>
+      <button class="btn btn-sun btn-block" id="login-btn" type="submit">Open the list</button>
+      <p class="form-error" id="login-error" role="alert" hidden></p>
+    </form>
+
+    <section id="desk" hidden>
+      <p class="admin-count" id="count"></p>
+      <p class="admin-banner" id="mail-banner" hidden>Sending is not connected yet. Addresses are saved, and update mails can go out once the Netlink mailbox is connected.</p>
+      <ul class="admin-list" id="people"></ul>
+
+      <form class="admin-card" id="compose">
+        <h2>Send an update</h2>
+        <p class="admin-hint">This goes only to people who ticked “email me occasional updates”, and who have not unsubscribed. Each mail gets its own unsubscribe link.</p>
+        <label class="field" for="subject">Subject</label>
+        <input class="input" id="subject" maxlength="120" required>
+        <label class="field" for="message">Message</label>
+        <textarea class="input admin-text" id="message" maxlength="5000" required></textarea>
+        <button class="btn btn-sun btn-block" id="send" type="submit">Send</button>
+        <p class="form-note" id="send-note" hidden></p>
+        <p class="form-error" id="send-error" role="alert" hidden></p>
+      </form>
+    </section>
+  </main>
+  <script src="admin.js"></script>
+</body>
+</html>

@@ -1,0 +1,7 @@
+{
+  "private": true,
+  "dependencies": {
+    "nodemailer": "^6.10.1",
+    "pg": "^8.16.3"
+  }
+}

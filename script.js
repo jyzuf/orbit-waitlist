@@ -181,8 +181,8 @@
   }
 
   const NOTES = {
-    test_group: 'One email, no newsletter spam. After this you pay 2 € with PayPal to confirm your seat.',
-    waitlist: 'One email, no newsletter spam. We only write about Netlink.',
+    test_group: 'Next you pay 2 € with PayPal. Update mails only go out if you tick the box.',
+    waitlist: 'We write once when Netlink opens to more people. Updates only if you tick the box.',
   }
   const intent = () => form.elements.intent.value
 
@@ -210,7 +210,7 @@
 
   const validEmail = (value) => value.length <= 254 && /^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(value)
 
-  async function save(address, choice) {
+  async function save(address, choice, updates) {
     try {
       const response = await fetch(`${cfg.supabaseUrl}/rest/v1/rpc/join_waitlist`, {
         method: 'POST',
@@ -219,7 +219,7 @@
           apikey: cfg.supabaseAnonKey,
           authorization: `Bearer ${cfg.supabaseAnonKey}`,
         },
-        body: JSON.stringify({ p_email: address, p_intent: choice, p_source: 'website' }),
+        body: JSON.stringify({ p_email: address, p_intent: choice, p_source: 'website', p_updates: Boolean(updates) }),
       })
       if (response.ok) return 'ok'
       const body = await response.json().catch(() => ({}))
@@ -229,7 +229,23 @@
     }
   }
 
-  function showDone(address, choice) {
+  async function sendSubscribeNotice(address) {
+    const apiBase = location.hostname.endsWith('github.io') ? 'https://netlink-one.vercel.app' : ''
+    try {
+      const response = await fetch(`${apiBase}/api/subscribed`, {
+        method: 'POST',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify({ email: address }),
+      })
+      if (!response.ok) return false
+      const body = await response.json().catch(() => ({}))
+      return body.mailed === true
+    } catch {
+      return false
+    }
+  }
+
+  function showDone(address, choice, updates, mailed) {
     form.hidden = true
     done.hidden = false
     const test = choice === 'test_group'
@@ -248,7 +264,7 @@
       text.append(strong, ' when Netlink opens up to more people.')
     }
     if (test) {
-      done.insertBefore(paypalSlot, upgrade)
+      done.insertBefore(paypalSlot, $('#subscribe'))
       showPayPalButton()
     } else {
       paypalSlot.hidden = true
@@ -256,9 +272,36 @@
     upgrade.hidden = test
     upgrade.onclick = async () => {
       upgrade.disabled = true
-      const result = await save(address, 'test_group')
+      const result = await save(address, 'test_group', updates)
       upgrade.disabled = false
-      if (result === 'ok') showDone(address, 'test_group')
+      if (result === 'ok') showDone(address, 'test_group', updates, mailed)
+    }
+    const subscribe = $('#subscribe')
+    const subscribeNote = $('#subscribe-note')
+    if (updates) {
+      subscribe.hidden = true
+      subscribeNote.hidden = false
+      subscribeNote.textContent = ''
+      subscribeNote.append('Occasional updates will go to ')
+      const where = document.createElement('strong')
+      where.textContent = address
+      subscribeNote.append(where, mailed ? '. We just sent a short confirmation.' : '. Every mail has a link to stop them.')
+    } else {
+      subscribe.hidden = false
+      subscribe.disabled = false
+      subscribeNote.hidden = true
+      subscribe.onclick = async () => {
+        subscribe.disabled = true
+        const result = await save(address, choice, true)
+        if (result !== 'ok') {
+          subscribe.disabled = false
+          subscribeNote.hidden = false
+          subscribeNote.textContent = 'We could not save that. Please try again.'
+          return
+        }
+        const sent = await sendSubscribeNotice(address)
+        showDone(address, choice, true, sent)
+      }
     }
     already.hidden = true
     done.focus({ preventScroll: true })
@@ -277,6 +320,7 @@
     email.removeAttribute('aria-invalid')
     const address = email.value.trim().toLowerCase()
     const choice = intent()
+    const updates = Boolean(form.elements.updates.checked)
 
     if (!validEmail(address)) {
       email.setAttribute('aria-invalid', 'true')
@@ -285,14 +329,17 @@
       return
     }
     // A hidden field that only bots fill in. Pretend it worked, store nothing.
-    if (form.elements.company.value) return showDone(address, choice)
+    if (form.elements.company.value) return showDone(address, choice, updates, false)
 
     submit.disabled = true
     submitLabel.textContent = 'Saving…'
-    const result = await save(address, choice)
+    const result = await save(address, choice, updates)
     submit.disabled = false
     refresh()
-    if (result === 'ok') return showDone(address, choice)
+    if (result === 'ok') {
+      const mailed = updates ? await sendSubscribeNotice(address) : false
+      return showDone(address, choice, updates, mailed)
+    }
     if (result === 'email') {
       email.setAttribute('aria-invalid', 'true')
       return showError('That email does not look right. Could you check it?')
