@@ -382,6 +382,20 @@ html:not(.js) .slide { transform: none; opacity: 1; }
 #submit { margin-top: 16px; }
 #paypal-slot { margin-top: 4px; }
 #paypal-container-A8EYKN2GV4N7Y { min-height: 50px; }
+#paypal-form-fields-container-A8EYKN2GV4N7Y { justify-content: center !important; }
+#form-container-A8EYKN2GV4N7Y { margin-inline: auto; }
+#paypal-form-fields-container-A8EYKN2GV4N7Y .item-header {
+  align-items: center !important;
+  text-align: center !important;
+}
+#paypal-form-fields-container-A8EYKN2GV4N7Y .item-header .item-title,
+#paypal-form-fields-container-A8EYKN2GV4N7Y .item-header .price-container,
+#paypal-form-fields-container-A8EYKN2GV4N7Y .item-header .discount-text {
+  text-align: center !important;
+}
+#paypal-form-fields-container-A8EYKN2GV4N7Y .item-header #price-label {
+  justify-content: center !important;
+}
 #paypal-direct { display: inline; padding: 0; }
 .form-note { margin-top: 14px; font-size: 0.86rem; line-height: 1.5; color: var(--sub); text-align: center; }
 .form-error { margin-top: 12px; padding: 10px 14px; border-radius: 12px; background: #FDECEF; color: #A92B42; font-size: 0.92rem; font-weight: 550; }
